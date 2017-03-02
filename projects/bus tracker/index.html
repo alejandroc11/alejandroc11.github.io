@@ -1,9 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <title>jQuery.parseXML demo</title>
+  <style>
+    div.class {
+      background-color:orange; 
+      border: 1px solid black; 
+      border-radius: 6px;
+      min-height:75px;
+      padding:15px;
+      
+    }
+    
+    p {
+      color:white;
+      font-size:20px;
+      margin-right:370px;
+    }        
+  </style>
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body>
@@ -14,31 +29,61 @@
           
           var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
           
-          var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getroutes";
+          var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getpredictions";
           
           
-          $.ajax({
+          $("#btnSearch").on("click", function(){
+            $("#results").html("")        
+          
+            $.ajax({
               url: apiPassThruUrl,
               dataType: "json",
               method: 'GET',
-              data: {"apiEndpoint": apiEndpoint,
+              data: { "apiEndpoint": apiEndpoint,
                       "key" : "9zMgdFfpcuA6JnnY3VAcizFyV",
+                      "stpid" : "8195,8417,1662,1708",
+                      "rt" : $("#txt").val(),
                       "format":"json"}
+            
             }).done (function (data) {
               console.log(data);
-              $("#results").append("<h1>Bus Routes</h1>");
+              //$("#form").append("<h1>Bus Routes</h1>");
              
-              $.each(data["bustime-response"]["routes"], function(i,v) {
-                  $("#results").append("Route #" + v.rt + ", " + v.rtnm + "<br>");
+              $.each(data["bustime-response"]["prd"], function(i,v) {
+                  $("#results").append("Time: " + v.prdctdn + " min " 
+                  + "<br>" 
+                  + "Route #: "
+                  + v.rt 
+                  + "<br>"
+                  + "Destination: "
+                  + v.des 
+                  + "<br>"
+                  + "Direction of Travel: "
+                  + v.rtdir
+                  + "<br>"
+                  + "Stop: "
+                  + v.stpnm
+                  + "<br>"
+                  + "Vehicle ID: "
+                  + v.vid
+                  + "<hr>");
                 
               })
-
             });
         });
-            
+        });
   
 </script>
-      <div id="results">
+      <div id="form" class="class">
+        <p>Route #:</p>
+        <select id="txt" type="text">
+                  <option value="49">Western-49</option>
+                  <option value="X49">Western-X49</option>
+                  <option value="49B">Western-49B</option>
+                </select>
+              <button type="button" id="btnSearch">Find!</button>
+      </div>
+      <div id="results" class="class">
         
         
       </div>
