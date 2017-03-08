@@ -18,7 +18,7 @@
  */
 body {
     margin: 0;
-    background-color: #2196F3
+    background-color: orange
 }
 * {
     -webkit-user-select: none;
@@ -85,7 +85,7 @@ body {
     }
     to {
         width: 40.2vmin;
-        heigt: 40.1vmin;
+        height: 40.1vmin;
     }
 }
 @keyframes middle-horning {
@@ -95,7 +95,7 @@ body {
     }
     to {
         width: 40.2vmin;
-        heigt: 40.1vmin;
+        height: 40.1vmin;
     }
 }
 @-webkit-keyframes horning {
@@ -105,7 +105,7 @@ body {
     }
     to {
         width: 50.1vmin;
-        heigt: 50.2vmin;
+        height: 50.2vmin;
     }
 }
 @keyframes horning {
@@ -115,13 +115,13 @@ body {
     }
     to {
         width: 50.1vmin;
-        heigt: 50.2vmin;
+        height: 50.2vmin;
     }
 }
 
 .horn {
-    background-color: #F44336;
-    box-shadow: 0 5px 2px 0 #1565C0;
+    background-color: white;
+    box-shadow: 0 5px 2px 0 black;
     -webkit-transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1);
     transition: box-shadow .2s cubic-bezier(.4, 0, 1, 1)
 }
@@ -142,7 +142,7 @@ body {
     justify-content: center
 }
 .horn .inner {
-    background-color: #B71C1C
+    background-color: green
 }
 .horn .inner .center {
     background-color: #000;

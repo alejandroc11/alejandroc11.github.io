@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang=en-GB>
       <head>
             <meta charset=utf-8>
@@ -33,6 +33,13 @@
       </head>
       
       <body>
+            <script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker
+           .register('./sw.js')
+           .then(function() { console.log("Service Worker Registered"); });
+}
+</script>
             <div id=airhorn>
                   <div class=horn>
                         <div class=inner>
