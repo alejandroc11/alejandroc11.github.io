@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas Art</title>
+    <style>
+        
+            canvas {
+            border:1px solid #d3d3d3;background-color:white;
+            }
+            #ball {display: none;}
+        
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="400" height="400">
+        Your browser does not support the canvas element.
+    </canvas>
+    <img id="ball" src="http://www.clker.com/cliparts/b/8/d/3/11949837831120231634mouse_pointer_wolfram_es_01.svg.hi.png">
+    <script>
+    
+             
+            //create a reference to the canvas element
+            var canvas = document.getElementById("myCanvas");
+            
+            //create a reference to the drawing object
+            var ctx = canvas.getContext("2d");
+            
+            canvas.addEventListener("mousemove", 
+            
+            function (e) {
+            var circleColor = '#'+ Math.floor(Math.random()*16777215).toString(16);
+            
+            ctx.fillStyle = circleColor;
+            }
+            );
+            
+            //create a reference to the canvas element
+            var canvas = document.getElementById("myCanvas");
+            
+            //create a reference to the drawing object
+            var ctx = canvas.getContext("2d");
+            
+            var circleX = 0;
+            var direction = 1;
+            
+            function draw() {
+               
+               ctx.clearRect(0,0,canvas.width,canvas.height); 
+               ctx.beginPath();
+               ctx.arc(circleX, 50, 20, 0, 2 * Math.PI);
+               ctx.fill();
+               
+               if (circleX >= (canvas.width - 10)) {
+                   direction = -3;
+               }
+               else if (circleX<= 10) {
+                   direction = 3;
+               }
+               circleX = circleX + direction;
+               
+               
+               window.requestAnimationFrame(draw);
+                
+            }
+            
+            window.requestAnimationFrame(draw);
+                
+    </script>
+    <br>
+<button onclick="draw()">Fast</button>
+<p>
+    Move on the Canvas
+</p>
+</body>
+</html>
