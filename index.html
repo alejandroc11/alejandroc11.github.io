@@ -54,6 +54,25 @@
     return false;
   }
 });
-}</script>
+  )
+  input.dirty:not(:focus):invalid {
+  background-color: #FFD9D9;
+}
+input.dirty:not(:focus):valid {
+  background-color: #D9FFD9;
+}
+  var inputs = document.getElementsByTagName("input");
+var inputs_len = inputs.length;
+var addDirtyClass = function(evt) {
+  sampleCompleted("Forms-order-dirty");
+  evt.srcElement.classList.toggle("dirty", true);
+};
+for (var i = 0; i < inputs_len; i++) {
+  var input = inputs[i];
+  input.addEventListener("blur", addDirtyClass);
+  input.addEventListener("invalid", addDirtyClass);
+  input.addEventListener("valid", addDirtyClass);
+}
+  </script>
 </body>
 </html>
