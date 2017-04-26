@@ -30,6 +30,16 @@
 <input type="email" name="emailC" id="frmEmailC"
   placeholder="name@example.com" required autocomplete="email">
 
+  <input type="text" pattern="^\d{5,6}(?:[-\s]\d{4})?$" ...>
+  <input type="text" required pattern="^\d{5,6}(?:[-\s]\d{4})?$" ...>
+  <input type="number" min="1" max="13" step="0.5" ...>
+  <input type="text" id="83filename" maxlength="12" ...>
+  <input type="text" id="83filename" minlength="8" ...>
+  <form role="form" novalidate>
+  <label for="inpEmail">Email address</label>
+  <input type="email" ...>
+</form>
+  
 <label for="frmPhoneNumA">Phone</label>
 <input type="tel" name="phone" id="frmPhoneNumA"
   placeholder="+1-555-555-1212" required autocomplete="tel">
