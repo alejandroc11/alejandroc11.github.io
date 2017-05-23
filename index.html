@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+<body>
+  <h1>Hello World!</h1>
+  <label for="frmFavChocolate">Favorite Type of Chocolate</label>
+<input type="text" name="fav-choc" id="frmFavChocolate" list="chocType">
+<datalist id="chocType">
+  <option value="white">
+  <option value="milk">
+  <option value="dark">
+</datalist>
+  <br>
+  <label for="frmAddressS">Address</label>
+<input type="text" name="ship-address" required id="frmAddressS"
+  placeholder="123 Any Street" autocomplete="shipping street-address">
+  <input type="text" placeholder="MM-YYYY" ...>
+  <br>
+  <label for="frmNameA">Name</label>
+<input type="text" name="name" id="frmNameA"
+  placeholder="Full name" required autocomplete="name">
+
+<label for="frmEmailA">Email</label>
+<input type="email" name="email" id="frmEmailA"
+  placeholder="name@example.com" required autocomplete="email">
+
+<label for="frmEmailC">Confirm Email</label>
+<input type="email" name="emailC" id="frmEmailC"
+  placeholder="name@example.com" required autocomplete="email">
+
+  <input type="text" pattern="^\d{5,6}(?:[-\s]\d{4})?$" ...>
+  <input type="text" required pattern="^\d{5,6}(?:[-\s]\d{4})?$" ...>
+  <input type="number" min="1" max="13" step="0.5" ...>
+  <input type="text" id="83filename" maxlength="12" ...>
+  <input type="text" id="83filename" minlength="8" ...>
+  <form role="form" novalidate>
+  <label for="inpEmail">Email address</label>
+  <input type="email" ...>
+</form>
+  
+<label for="frmPhoneNumA">Phone</label>
+<input type="tel" name="phone" id="frmPhoneNumA"
+  placeholder="+1-555-555-1212" required autocomplete="tel">
+  <script>if (input.value != primaryEmail) {
+  // the provided value doesn't match the primary email address
+  input.setCustomValidity('The two email addresses must match.');
+  console.log("E-mail addresses do not match", primaryEmail, input.value);
+} else {
+  // input is valid -- reset the error message
+  input.setCustomValidity('');
+  
+  form.addEventListener("submit", function(evt) {
+  if (form.checkValidity() === false) {
+    evt.preventDefault();
+    alert("Form is invalid - submission prevented!");
+    return false;
+  } else {
+    // To prevent data from being sent, we've prevented submission
+    // here, but normally this code block would not exist.
+    evt.preventDefault();
+    alert("Form is valid - submission prevented to protect privacy.");
+    return false;
+  }
+});
+  )
+  input.dirty:not(:focus):invalid {
+  background-color: #FFD9D9;
+}
+input.dirty:not(:focus):valid {
+  background-color: #D9FFD9;
+}
+  var inputs = document.getElementsByTagName("input");
+var inputs_len = inputs.length;
+var addDirtyClass = function(evt) {
+  sampleCompleted("Forms-order-dirty");
+  evt.srcElement.classList.toggle("dirty", true);
+};
+for (var i = 0; i < inputs_len; i++) {
+  var input = inputs[i];
+  input.addEventListener("blur", addDirtyClass);
+  input.addEventListener("invalid", addDirtyClass);
+  input.addEventListener("valid", addDirtyClass);
+}
+  </script>
+</body>
+</html>
