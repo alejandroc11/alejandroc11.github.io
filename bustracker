@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Material Design Lite -->
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <!-- Material Design icon font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+    .class {
+      display:none;
+      background-color:orange; 
+      border: 1px solid black; 
+      border-radius: 6px;
+      min-height:75px;
+      padding:15px;
+      
+    }
+    
+    select {
+      color:red;
+      font-size:15px;
+    } 
+    #results{
+      color:black;
+      font-size:20px;
+    }
+    </style>
+    <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  </head>
+  <body>
+       <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Bus Tracker</span>
+          <!-- Add spacer, to align navigation to the right -->
+          <div class="mdl-layout-spacer"></div>
+          <!-- Navigation. We hide it in small screens. -->
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
+            <a id="link1" class="mdl-navigation__link" href="#">Search</a>
+            <a id="link2" class="mdl-navigation__link" href="#">Results</a>
+          </nav>
+        </div> 
+      </header>
+      
+      <main class="mdl-layout__content">
+        <div id="screen1" class="class">
+        
+        <select id="routes"></select>
+        <br>
+        <select id="directions"></select>
+        <br>
+        <select id="stops"></select>
+        
+        </div>
+        <div id="results" class="class">
+          
+        </div>
+      </main>
+    </div>
+    <script>
+        var db = new Dexie('MyStops');
+      		db.version(1).stores({
+      		stops: '++id, routeId, routeName, direction, stopId,stopName, datetime'
+      	}); 
+        
+            
+        $(function() {
+          
+     
+          var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+          
+          
+          //   ajax call to get the routes from the bus tracker
+          //      when done, append options to the routes select control.
+          
+          var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getroutes";
+          $.ajax({
+              url: apiPassThruUrl,
+              dataType: "json",
+              method: 'GET',
+              data: {"apiEndpoint": apiEndpoint,
+                      "key" : "9zMgdFfpcuA6JnnY3VAcizFyV",
+                      "format":"json"}
+            }).done (function (data) {
+             
+             
+              // load options into a select controle
+             $.each(data["bustime-response"]["routes"], function(i,v) {
+                  var option = $("<option>");   // creates an option element
+                  option.attr("value", v.rt );   // set value
+                  option.text(v.rt + " - " + v.rtnm);  // set text
+                  $("#routes").append(option);   // add option to select control
+              })
+             
+              
+              
+              
+              
+              // if you want to output to the screen
+              /*
+              console.log(data);
+              $("body").append("<h1>Bus Routes</h1>");
+             
+              $.each(data["bustime-response"]["routes"], function(i,v) {
+                  $("body").append("Route #" + v.rt + ", " + v.rtnm + "<br>");
+                
+              })
+              */
+            });
+            
+              
+          //   change event handler on the route control
+          //	remove any options already in the directions control 
+          //	ajax call to get directions for the selected route
+          //		when done, append options to the directions select control
+          $("#routes").on("change", function() {
+            
+            
+            
+              $("#stops option").remove();
+            
+              var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getdirections";
+            $.ajax({
+                url: apiPassThruUrl,
+                dataType: "json",
+                method: 'GET',
+                data: {"apiEndpoint": apiEndpoint,
+                        "key" : "9zMgdFfpcuA6JnnY3VAcizFyV",
+                        "format":"json",
+                        "rt": $("#routes").val()
+                }
+              }).done (function (data) {
+                //console.log(data);
+               
+                // load options into a select controle
+               
+               $("#directions option").remove();
+               
+               $.each(data["bustime-response"]["directions"], function(i,v) {
+                    var option = $("<option>");   // creates an option element
+                    option.attr("value", v.dir );   // set value
+                    option.text(v.dir);  // set text
+                    $("#directions").append(option);   // add option to select control
+                })
+          
+        $("#directions").on("change", function() {
+          
+  
+          
+              var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getstops";
+            $.ajax({
+                url: apiPassThruUrl,
+                dataType: "json",
+                method: 'GET',
+                data: {"apiEndpoint": apiEndpoint,
+                        "key" : "9zMgdFfpcuA6JnnY3VAcizFyV",
+                        "format":"json",
+                        "rt": $("#routes").val(),
+                        "dir": $("#directions").val()
+                }
+              }).done (function (data) {
+                //console.log(data);
+               
+                // load options into a select controle
+               
+               $("#stops option").remove();
+               
+               $.each(data["bustime-response"]["stops"], function(i,v) {
+                    var option = $("<option>");   // creates an option element
+                    option.attr("value", v.stpid );   // set value
+                    option.text(v.stpnm);  // set text
+                    $("#stops").append(option);   // add option to select control
+                })
+               });            
+              });
+             });
+            });            
+           });
+           
+</script>
+<script>
+  $(function() {
+          
+          
+          var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+          
+          var apiEndpoint = "http://ctabustracker.com/bustime/api/v2/getpredictions";
+          
+          
+          $("#link2").on("click", function(){
+            $("#results").html("")        
+          
+            $.ajax({
+              url: apiPassThruUrl,
+              dataType: "json",
+              method: 'GET',
+              data: { "apiEndpoint": apiEndpoint,
+                      "key" : "9zMgdFfpcuA6JnnY3VAcizFyV",
+                      "stpid" : $("#stops").val(),
+                      "rt" : $("#routes").val(),
+                      "dir" : $("#directions").val(),
+                      "format":"json"
+                
+              }
+            
+            }).done (function (data) {
+              console.log(data);
+              //$("#form").append("<h1>Bus Routes</h1>");
+             
+             
+             
+             
+              $.each(data["bustime-response"]["prd"], function(i,v) {
+                  $("#results").append("Time: " 
+                  + v.prdctdn 
+                  + " min " 
+                  + "<br>" 
+                  + "Route #: "
+                  + v.rt 
+                  + "<br>"
+                  + "Direction of Travel: "
+                  + v.rtdir
+                  + "<br>"
+                  + "Stop: "
+                  + v.stpnm
+                  + "<hr>"
+                  );
+                db.stops.add({
+                  routeId: v.rt,
+              		routeName: v.rtnm,
+              		direction: v.rtdir,
+              		stopId: v.stpid,
+              		stopName: v.stpnm,
+              		datetime: v.tmstmp,
+              	});
+              })
+                
+            });
+            });
+            });
+</script>
+   <script>
+          $(function() {
+              $("#screen1").show();
+              
+              $("#link1").on("click", function(){
+                  $(".class").hide();
+                  $("#screen1").show();
+              });
+              $("#link2").on("click", function(){
+                  $(".class").hide();
+                  $("#results").show();
+              });
+          });
+</script>
+</body>
+</html>
