@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Canvas</title>
+    <style>
+            #darth {display: none;}
+    </style>
+    
+  </head>
+  <body>
+    <canvas id="Canvas" width="400" height="400"></canvas>
+    
+
+    <script>
+            
+            //create a reference to the canvas element
+            var canvas = document.getElementById("Canvas");
+            
+            //create a reference to the drawing object
+            var ctx = canvas.getContext("2d");
+            
+            var circleX = 100;
+            var circleY = 100;
+            
+            ctx.beginPath();
+            ctx.arc(circleX,circleY,10,0,2*Math.PI);
+            ctx.fill();
+            
+            
+            
+            var moveCircle = function(e) {
+             console.log(e);
+                
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+                
+            if (e.keyCode == 37) {
+            circleX = circleX - 10;
+            }
+            if (e.keyCode == 38) {
+            circleY = circleY - 10;
+            }
+            if (e.keyCode == 39) {
+            circleX = circleX + 10;
+            }
+            if (e.keyCode == 40) {
+            circleY = circleY + 10;
+            }
+            
+            ctx.beginPath();
+            ctx.arc(circleX,circleY,10,0,2*Math.PI);
+            ctx.fill();
+            };
+            
+
+            document.addEventListener("keydown", moveCircle );
+    
+    </script>
+  </body>
+</html>
